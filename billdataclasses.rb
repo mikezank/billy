@@ -1,8 +1,45 @@
 require 'date'
 require 'ice_cube'
 require 'pstore'
+require 'csv'
 require 'uuidtools'
 include IceCube
+
+class Preferences
+  
+  PREF_PSTORE = 'billyprefs.pstore'
+  
+  attr_reader :data_directory, :lookahead_days
+  
+  #
+  # Preferences records user-specified preferences
+  #
+  # data_directory is the location of all PStores
+  #
+  # lookahead_days is the number of days beyond today to generate and display Bills
+  #
+  def initialize
+    @pstore = PStore.new(PREF_PSTORE)
+    @pstore.transaction do
+      @data_directory = @pstore.fetch(:data_directory, Qt::Dir.currentPath)
+      @lookahead_days = @pstore.fetch(:lookahead_days, 30)
+    end
+  end
+  
+  def set_data_directory(direct)
+    @data_directory = direct
+    @pstore.transaction do
+      @pstore[:data_directory] = @data_directory
+    end
+  end
+  
+  def set_lookahead_days(days)
+    @lookahead_days = days
+    @pstore.transaction do
+      @pstore[:lookahead_days] = @lookahead_days
+    end
+  end
+end
 
 class Bill
   
@@ -54,10 +91,12 @@ class BillList
   #
   # empty_list is a boolean to indicate whether the list should be empty to start with
   #
-  attr_reader :bills
+  attr_reader :bills, :lookahead_days
   
   def initialize(bstorename, empty_list)
-    @bstore = PStore.new(bstorename)
+    prefs = Preferences.new
+    @lookahead_days = prefs.lookahead_days
+    @bstore = PStore.new(prefs.data_directory + '/' + bstorename)
     if empty_list
       # start with an empty list
       @bills = {}
@@ -76,7 +115,7 @@ class BillList
     #
     # Bills are only generated until the lookahead date (until_date)
     #
-    until_date = Date.today + Globals::MAX_LOOKAHEAD_DAYS
+    until_date = Date.today + @lookahead_days
     mblist.each_masterbill do |mbill|
       mbill.generate_bill do |bill|
         break if bill.duedate > until_date
@@ -139,6 +178,14 @@ class BillList
     @bills.delete_if { |key, bill| bill.parent == mbill.uuid}
   end
   
+  def write_csv_file(filename)
+    CSV.open(filename, "wb", col_sep: "|") do |csv|
+      @bills.each_value do |bill|
+        csv << [bill.name, bill.amount, bill.duedate, bill.paid, bill.url]
+      end
+    end
+  end
+  
   def pprint # pretty printer
     @bills.each_value {|bill| bill.pprint}
   end
@@ -175,7 +222,7 @@ class AllBills
     # yield a sorted list of all bills, both paid and unpaid, that are due between
     # @show_after_date and the lookahead date (until_date)
     #
-    until_date = Date.today + Globals::MAX_LOOKAHEAD_DAYS
+    until_date = Date.today + @paid.lookahead_days
     @paid.bills.merge(@unpaid.bills).sort_by { |key, value| key }
      .select {|k, bill| bill.duedate.between?(@show_after_date, until_date)}.each do |k, bill|
        yield bill
@@ -476,7 +523,8 @@ class MasterBillList
   # Pstore, whereas the MasterBill object id itself will not.
   #
   def initialize(mbstorename)
-    @mbstore = PStore.new(mbstorename)
+    prefs = Preferences.new
+    @mbstore = PStore.new(prefs.data_directory + '/' + mbstorename)
     @mbstore.transaction do
       @mbills = @mbstore.fetch(:mbills, {})
     end
@@ -501,6 +549,16 @@ class MasterBillList
   
   def each_masterbill
     @mbills.each_value {|mbill| yield mbill}
+  end
+  
+  def write_csv_file(filename)
+    CSV.open(filename, "wb", col_sep: "|") do |csv|
+      each_masterbill do |mbill|
+        csv << [mbill.name, mbill.amount, mbill.get_frequency.start_date.to_s,
+          mbill.get_frequency.end_date.to_s, mbill.get_frequency.freq_text,
+          mbill.get_frequency.condition_text, mbill.url]
+      end
+    end
   end
   
   #-- The following methods are used primarily for testing and debugging purposes

@@ -70,11 +70,57 @@
      <x>0</x>
      <y>0</y>
      <width>856</width>
-     <height>22</height>
+     <height>27</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuExport">
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionActive_MasterBills"/>
+     <addaction name="actionInactive_MasterBills"/>
+     <addaction name="actionPaid_Bills"/>
+    </widget>
+    <addaction name="menuExport"/>
+    <addaction name="actionPreferences"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionActive_MasterBills">
+   <property name="text">
+    <string>Active MasterBills</string>
+   </property>
+  </action>
+  <action name="actionInactive_MasterBills">
+   <property name="text">
+    <string>Inactive MasterBills</string>
+   </property>
+  </action>
+  <action name="actionPaid_Bills">
+   <property name="text">
+    <string>Paid Bills</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -85,8 +131,8 @@
    <slot>do_maintenance()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>153</x>
-     <y>74</y>
+     <x>64</x>
+     <y>711</y>
     </hint>
     <hint type="destinationlabel">
      <x>72</x>
@@ -101,8 +147,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>180</y>
+     <x>153</x>
+     <y>710</y>
     </hint>
     <hint type="destinationlabel">
      <x>197</x>

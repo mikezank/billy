@@ -3,6 +3,7 @@ require 'date'
 require 'Qt4'
 require_relative 'billdataclasses'
 require_relative 'billmaintain'
+require_relative 'billpreferences'
 require_relative 'main_ui'
 
 #-- Add date conversions between QDate and ruby Date
@@ -24,7 +25,6 @@ class Globals
   INACTIVE_MBILL_STORE = 'inactive_mbill_store.pstore'
   PAID_BILL_STORE = 'paid_bill_store.pstore'
   UNPAID_BILL_STORE = 'unpaid_bill_store.pstore'
-  MAX_LOOKAHEAD_DAYS = 90 # how many days after today that bills will be generated and displayed
 end
 
 class MainWindow < Qt::MainWindow
@@ -45,6 +45,46 @@ class MainWindow < Qt::MainWindow
     super
     @ui = Ui_MainWindow.new
     @ui.setupUi(self)
+    @ui.menubar.setNativeMenuBar(false)
+    define_menu_actions
+    reload_bills
+    show_bill_table
+  end
+  
+  def define_menu_actions
+    @ui.actionActive_MasterBills.connect(SIGNAL('triggered()')) do # File -> Export -> Active MasterBills
+      filename = get_export_file
+      if filename
+        activeMBlist = MasterBillList.new(Globals::ACTIVE_MBILL_STORE)
+        activeMBlist.write_csv_file(filename)
+      end
+    end
+    @ui.actionInactive_MasterBills.connect(SIGNAL('triggered()')) do # File -> Export -> Inactive MasterBills
+      filename = get_export_file
+      if filename
+        inactiveMBlist = MasterBillList.new(Globals::INACTIVE_MBILL_STORE)
+        inactiveMBlist.write_csv_file(filename)
+      end
+    end
+    @ui.actionPaid_Bills.connect(SIGNAL('triggered()')) do # File -> Export -> Paid Bills
+      filename = get_export_file
+      if filename
+        @blist.get_paid.write_csv_file(filename)
+      end
+    end
+    @ui.actionPreferences.connect(SIGNAL('triggered()')) do # File -> Preferences
+      set_preferences
+    end
+  end
+  
+  def get_export_file
+    prefs = Preferences.new
+    filename = Qt::FileDialog.getSaveFileName(self, 'Export To', prefs.data_directory, 'CSV file (*.csv)')
+  end
+  
+  def set_preferences()
+    prefwin = BillPreferencesDialog.new
+    retcode = prefwin.exec
     reload_bills
     show_bill_table
   end

@@ -1,13 +1,17 @@
 =begin
 ** Form generated from reading ui file 'main.ui'
 **
-** Created: Mon Jan 12 09:59:57 2015
+** Created: Wed Jan 14 06:51:53 2015
 **      by: Qt User Interface Compiler version 4.8.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
 =end
 
 class Ui_MainWindow
+    attr_reader :actionActive_MasterBills
+    attr_reader :actionInactive_MasterBills
+    attr_reader :actionPaid_Bills
+    attr_reader :actionPreferences
     attr_reader :centralwidget
     attr_reader :scrollArea
     attr_reader :scrollAreaWidgetContents
@@ -16,6 +20,8 @@ class Ui_MainWindow
     attr_reader :maintainButton
     attr_reader :exitButton
     attr_reader :menubar
+    attr_reader :menuFile
+    attr_reader :menuExport
     attr_reader :statusbar
 
     def setupUi(mainWindow)
@@ -23,6 +29,14 @@ class Ui_MainWindow
         mainWindow.objectName = "mainWindow"
     end
     mainWindow.resize(856, 760)
+    @actionActive_MasterBills = Qt::Action.new(mainWindow)
+    @actionActive_MasterBills.objectName = "actionActive_MasterBills"
+    @actionInactive_MasterBills = Qt::Action.new(mainWindow)
+    @actionInactive_MasterBills.objectName = "actionInactive_MasterBills"
+    @actionPaid_Bills = Qt::Action.new(mainWindow)
+    @actionPaid_Bills.objectName = "actionPaid_Bills"
+    @actionPreferences = Qt::Action.new(mainWindow)
+    @actionPreferences.objectName = "actionPreferences"
     @centralwidget = Qt::Widget.new(mainWindow)
     @centralwidget.objectName = "centralwidget"
     @scrollArea = Qt::ScrollArea.new(@centralwidget)
@@ -52,11 +66,28 @@ class Ui_MainWindow
     mainWindow.centralWidget = @centralwidget
     @menubar = Qt::MenuBar.new(mainWindow)
     @menubar.objectName = "menubar"
-    @menubar.geometry = Qt::Rect.new(0, 0, 856, 22)
+    @menubar.geometry = Qt::Rect.new(0, 0, 856, 27)
+    @font = Qt::Font.new
+    @font.pointSize = 18
+    @menubar.font = @font
+    @menuFile = Qt::Menu.new(@menubar)
+    @menuFile.objectName = "menuFile"
+    @menuExport = Qt::Menu.new(@menuFile)
+    @menuExport.objectName = "menuExport"
+    @font1 = Qt::Font.new
+    @font1.pointSize = 16
+    @menuExport.font = @font1
     mainWindow.setMenuBar(@menubar)
     @statusbar = Qt::StatusBar.new(mainWindow)
     @statusbar.objectName = "statusbar"
     mainWindow.statusBar = @statusbar
+
+    @menubar.addAction(@menuFile.menuAction())
+    @menuFile.addAction(@menuExport.menuAction())
+    @menuFile.addAction(@actionPreferences)
+    @menuExport.addAction(@actionActive_MasterBills)
+    @menuExport.addAction(@actionInactive_MasterBills)
+    @menuExport.addAction(@actionPaid_Bills)
 
     retranslateUi(mainWindow)
     Qt::Object.connect(@maintainButton, SIGNAL('clicked()'), mainWindow, SLOT('do_maintenance()'))
@@ -71,8 +102,14 @@ class Ui_MainWindow
 
     def retranslateUi(mainWindow)
     mainWindow.windowTitle = Qt::Application.translate("MainWindow", "MainWindow", nil, Qt::Application::UnicodeUTF8)
+    @actionActive_MasterBills.text = Qt::Application.translate("MainWindow", "Active MasterBills", nil, Qt::Application::UnicodeUTF8)
+    @actionInactive_MasterBills.text = Qt::Application.translate("MainWindow", "Inactive MasterBills", nil, Qt::Application::UnicodeUTF8)
+    @actionPaid_Bills.text = Qt::Application.translate("MainWindow", "Paid Bills", nil, Qt::Application::UnicodeUTF8)
+    @actionPreferences.text = Qt::Application.translate("MainWindow", "Preferences", nil, Qt::Application::UnicodeUTF8)
     @maintainButton.text = Qt::Application.translate("MainWindow", "Maintain", nil, Qt::Application::UnicodeUTF8)
     @exitButton.text = Qt::Application.translate("MainWindow", "Exit", nil, Qt::Application::UnicodeUTF8)
+    @menuFile.title = Qt::Application.translate("MainWindow", "File", nil, Qt::Application::UnicodeUTF8)
+    @menuExport.title = Qt::Application.translate("MainWindow", "Export", nil, Qt::Application::UnicodeUTF8)
     end # retranslateUi
 
     def retranslate_ui(mainWindow)
