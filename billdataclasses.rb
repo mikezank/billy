@@ -1,4 +1,5 @@
 require 'date'
+require 'Qt4'
 require 'ice_cube'
 require 'pstore'
 require 'csv'
@@ -612,65 +613,6 @@ class MasterBillList
     @mbills.length
   end
   
-end
-
-class ReminderList
-  
-  
-  
-  #
-  # Each time ReminderList is refreshed from PStore, Reminder objects are created once again, so 
-  # their object ids won't agree with what's in the PStore.  So any references to ReminderList must be
-  # made by referencing each member's UUID (hash key), not the reminder object itself (hash value).
-  #
-  # Practically this means that a simple hash reference, reminder_list(uuid), will work fine. But
-  # any function that looks for the value (reminder object itself) will fail.  So special care
-  # must be taken to find by value or to delete by value.
-  #
-  # Affected methods are:  delete_reminder    change_reminder
-  #
-  def delete_reminder(reminder)
-    @pstore.transaction do
-      @reminders.delete(reminder.uuid)
-      @pstore[:reminders] = @reminders
-    end
-  end
-  
-  def change_reminder(old_rem, new_rem)
-    @pstore.transaction do
-      @reminders.delete(old_rem.uuid)
-      @reminders[new_rem.uuid] = new_rem
-      @pstore[:reminders] = @reminders
-    end
-  end
-  
-  def get_reminder(uuid)
-    @reminders[uuid]
-  end
-  
-  def each_reminder
-    @reminders.each_value {|rem| yield rem}
-  end
-  
-  # generates all tasks from the Reminder that fall within a given date range
-  def each_task(start_range, end_range)
-    @reminders.each_value do |rem|
-      rem.each_task do |task|
-        if task.duedate.between?(start_range, end_range) then
-          yield task
-        end
-      end
-    end
-  end
-  
-  def pprint #pretty printer
-    puts "Reminder list has #{length} entries:"
-    each_reminder {|r| r.pprint}
-  end
-  
-  
-  #--
-       
 end
 
 class CalendarDay

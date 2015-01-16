@@ -98,7 +98,14 @@
     <addaction name="menuExport"/>
     <addaction name="actionPreferences"/>
    </widget>
+   <widget class="QMenu" name="menuMaintain">
+    <property name="title">
+     <string>Maintain</string>
+    </property>
+    <addaction name="actionKeys"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuMaintain"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionActive_MasterBills">
@@ -119,6 +126,11 @@
   <action name="actionPreferences">
    <property name="text">
     <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionKeys">
+   <property name="text">
+    <string>Keys</string>
    </property>
   </action>
  </widget>

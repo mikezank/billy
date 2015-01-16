@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main.ui'
 **
-** Created: Wed Jan 14 06:51:53 2015
+** Created: Thu Jan 15 07:21:51 2015
 **      by: Qt User Interface Compiler version 4.8.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -12,6 +12,7 @@ class Ui_MainWindow
     attr_reader :actionInactive_MasterBills
     attr_reader :actionPaid_Bills
     attr_reader :actionPreferences
+    attr_reader :actionKeys
     attr_reader :centralwidget
     attr_reader :scrollArea
     attr_reader :scrollAreaWidgetContents
@@ -22,6 +23,7 @@ class Ui_MainWindow
     attr_reader :menubar
     attr_reader :menuFile
     attr_reader :menuExport
+    attr_reader :menuMaintain
     attr_reader :statusbar
 
     def setupUi(mainWindow)
@@ -37,6 +39,8 @@ class Ui_MainWindow
     @actionPaid_Bills.objectName = "actionPaid_Bills"
     @actionPreferences = Qt::Action.new(mainWindow)
     @actionPreferences.objectName = "actionPreferences"
+    @actionKeys = Qt::Action.new(mainWindow)
+    @actionKeys.objectName = "actionKeys"
     @centralwidget = Qt::Widget.new(mainWindow)
     @centralwidget.objectName = "centralwidget"
     @scrollArea = Qt::ScrollArea.new(@centralwidget)
@@ -77,17 +81,21 @@ class Ui_MainWindow
     @font1 = Qt::Font.new
     @font1.pointSize = 16
     @menuExport.font = @font1
+    @menuMaintain = Qt::Menu.new(@menubar)
+    @menuMaintain.objectName = "menuMaintain"
     mainWindow.setMenuBar(@menubar)
     @statusbar = Qt::StatusBar.new(mainWindow)
     @statusbar.objectName = "statusbar"
     mainWindow.statusBar = @statusbar
 
     @menubar.addAction(@menuFile.menuAction())
+    @menubar.addAction(@menuMaintain.menuAction())
     @menuFile.addAction(@menuExport.menuAction())
     @menuFile.addAction(@actionPreferences)
     @menuExport.addAction(@actionActive_MasterBills)
     @menuExport.addAction(@actionInactive_MasterBills)
     @menuExport.addAction(@actionPaid_Bills)
+    @menuMaintain.addAction(@actionKeys)
 
     retranslateUi(mainWindow)
     Qt::Object.connect(@maintainButton, SIGNAL('clicked()'), mainWindow, SLOT('do_maintenance()'))
@@ -106,10 +114,12 @@ class Ui_MainWindow
     @actionInactive_MasterBills.text = Qt::Application.translate("MainWindow", "Inactive MasterBills", nil, Qt::Application::UnicodeUTF8)
     @actionPaid_Bills.text = Qt::Application.translate("MainWindow", "Paid Bills", nil, Qt::Application::UnicodeUTF8)
     @actionPreferences.text = Qt::Application.translate("MainWindow", "Preferences", nil, Qt::Application::UnicodeUTF8)
+    @actionKeys.text = Qt::Application.translate("MainWindow", "Keys", nil, Qt::Application::UnicodeUTF8)
     @maintainButton.text = Qt::Application.translate("MainWindow", "Maintain", nil, Qt::Application::UnicodeUTF8)
     @exitButton.text = Qt::Application.translate("MainWindow", "Exit", nil, Qt::Application::UnicodeUTF8)
     @menuFile.title = Qt::Application.translate("MainWindow", "File", nil, Qt::Application::UnicodeUTF8)
     @menuExport.title = Qt::Application.translate("MainWindow", "Export", nil, Qt::Application::UnicodeUTF8)
+    @menuMaintain.title = Qt::Application.translate("MainWindow", "Maintain", nil, Qt::Application::UnicodeUTF8)
     end # retranslateUi
 
     def retranslate_ui(mainWindow)

@@ -2,8 +2,10 @@ require 'byebug'
 require 'date'
 require 'Qt4'
 require_relative 'billdataclasses'
+require_relative 'keychainclasses'
 require_relative 'billmaintain'
 require_relative 'billpreferences'
+require_relative 'keymaintain'
 require_relative 'main_ui'
 
 #-- Add date conversions between QDate and ruby Date
@@ -75,6 +77,9 @@ class MainWindow < Qt::MainWindow
     @ui.actionPreferences.connect(SIGNAL('triggered()')) do # File -> Preferences
       set_preferences
     end
+    @ui.actionKeys.connect(SIGNAL('triggered()')) do # Maintain -> Keys
+      maintain_keys
+    end
   end
   
   def get_export_file
@@ -82,11 +87,16 @@ class MainWindow < Qt::MainWindow
     filename = Qt::FileDialog.getSaveFileName(self, 'Export To', prefs.data_directory, 'CSV file (*.csv)')
   end
   
-  def set_preferences()
+  def set_preferences
     prefwin = BillPreferencesDialog.new
     retcode = prefwin.exec
     reload_bills
     show_bill_table
+  end
+  
+  def maintain_keys
+    keywin = KeyMaintainDialog.new
+    retcode = keywin.show
   end
   
   def reload_bills
@@ -147,6 +157,10 @@ class MainWindow < Qt::MainWindow
   
 end
 
+#
+# main program
+#
+Code.initialize_key  # init AESkey for encrypt/decrypt
 app = Qt::Application.new(ARGV)
 appfont = Qt::Font.new("Courier", 10, Qt::Font::Bold, true)
 app.setFont(appfont)
