@@ -17,7 +17,8 @@ class MasterBillAddChangeWindow < Qt::Dialog
   slots 'save_clicked()', 'clear_clicked()', # defined on the form
           'start_date_check()', 'end_date_check()',
           'monthly_period_clicked()', 'weekly_period_clicked()', 
-          'daily_period_clicked()', 'semi_period_clicked()'
+          'daily_period_clicked()', 'semi_period_clicked()',
+          'name_selected(int,int)'
          
   def initialize(mbills, *arg)
     @mbills = mbills
@@ -109,6 +110,7 @@ class MasterBillAddChangeWindow < Qt::Dialog
   end
   
   def disable_all_periods()
+    #byebug
     @ui.monthlyButton.setChecked(false)
     @ui.weeklyButton.setChecked(false)
     @ui.dailyButton.setChecked(false)
@@ -142,6 +144,12 @@ class MasterBillAddChangeWindow < Qt::Dialog
     @ui.enddateEdit.setSpecialValueText('None')
     @ui.enddateEdit.date = @mindate
     @ui.enddateEdit.setEnabled(false)
+  end
+  
+  def name_selecdted(x, y)
+    # user is about to enter a new name so clear out the error text
+    puts "name_selected: #{x}, #{y}"
+    @ui.errorMsg.setText('')
   end
   
   def monthly_period_clicked()

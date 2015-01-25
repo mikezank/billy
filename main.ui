@@ -42,7 +42,7 @@
      <rect>
       <x>21</x>
       <y>658</y>
-      <width>163</width>
+      <width>239</width>
       <height>32</height>
      </rect>
     </property>
@@ -50,7 +50,7 @@
      <item>
       <widget class="QPushButton" name="maintainButton">
        <property name="text">
-        <string>Maintain</string>
+        <string>Maintain Master Bills</string>
        </property>
       </widget>
      </item>

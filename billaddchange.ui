@@ -338,7 +338,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -376,14 +376,11 @@
   <zorder>layoutWidget</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>layoutWidget</zorder>
-  <zorder>pushButton</zorder>
-  <zorder>pushButton_2</zorder>
-  <zorder>doneButton</zorder>
+  <zorder>layoutWidget</zorder>
   <zorder>groupBox</zorder>
   <zorder>layoutWidget_2</zorder>
   <zorder>layoutWidget_3</zorder>
   <zorder>errorMsg</zorder>
-  <zorder>clearButton</zorder>
  </widget>
  <resources/>
  <connections>
@@ -410,7 +407,7 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>342</x>
+     <x>650</x>
      <y>381</y>
     </hint>
     <hint type="destinationlabel">
@@ -522,7 +519,7 @@
    <slot>clear_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>233</x>
+     <x>441</x>
      <y>394</y>
     </hint>
     <hint type="destinationlabel">
@@ -543,5 +540,6 @@
   <slot>start_date_changed(QDate)</slot>
   <slot>end_date_changed(QDate)</slot>
   <slot>clear_clicked()</slot>
+  <slot>name_selected(int,int)</slot>
  </slots>
 </ui>

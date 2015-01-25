@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main.ui'
 **
-** Created: Thu Jan 15 07:21:51 2015
+** Created: Sun Jan 18 07:49:10 2015
 **      by: Qt User Interface Compiler version 4.8.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -53,7 +53,7 @@ class Ui_MainWindow
     @scrollArea.setWidget(@scrollAreaWidgetContents)
     @widget = Qt::Widget.new(@centralwidget)
     @widget.objectName = "widget"
-    @widget.geometry = Qt::Rect.new(21, 658, 163, 32)
+    @widget.geometry = Qt::Rect.new(21, 658, 239, 32)
     @horizontalLayout = Qt::HBoxLayout.new(@widget)
     @horizontalLayout.objectName = "horizontalLayout"
     @horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -115,7 +115,7 @@ class Ui_MainWindow
     @actionPaid_Bills.text = Qt::Application.translate("MainWindow", "Paid Bills", nil, Qt::Application::UnicodeUTF8)
     @actionPreferences.text = Qt::Application.translate("MainWindow", "Preferences", nil, Qt::Application::UnicodeUTF8)
     @actionKeys.text = Qt::Application.translate("MainWindow", "Keys", nil, Qt::Application::UnicodeUTF8)
-    @maintainButton.text = Qt::Application.translate("MainWindow", "Maintain", nil, Qt::Application::UnicodeUTF8)
+    @maintainButton.text = Qt::Application.translate("MainWindow", "Maintain Master Bills", nil, Qt::Application::UnicodeUTF8)
     @exitButton.text = Qt::Application.translate("MainWindow", "Exit", nil, Qt::Application::UnicodeUTF8)
     @menuFile.title = Qt::Application.translate("MainWindow", "File", nil, Qt::Application::UnicodeUTF8)
     @menuExport.title = Qt::Application.translate("MainWindow", "Export", nil, Qt::Application::UnicodeUTF8)

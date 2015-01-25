@@ -75,7 +75,7 @@ class Bill
   def format_label
     weekday = %w(Sun Mon Tue Wed Thu Fri Sat)[@duedate.wday]
     amtstr = "%.2f" % amount
-    label = "%-20s %-12s" % [@name, @duedate.to_s] + weekday + "%10s" % amtstr
+    label = "%-28s %-11s" % [@name, @duedate.to_s] + weekday + "%10s" % amtstr
   end
   
   def pprint #pretty printer

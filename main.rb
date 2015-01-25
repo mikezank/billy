@@ -101,7 +101,7 @@ class MainWindow < Qt::MainWindow
   
   def reload_bills
     activeMBlist = MasterBillList.new(Globals::ACTIVE_MBILL_STORE)
-    activeMBlist.test_load
+    #activeMBlist.test_load
     @blist = AllBills.new(activeMBlist)
   end
   
@@ -134,7 +134,7 @@ class MainWindow < Qt::MainWindow
       @urlAtPayButton[payButton] = bill.url
       grid.addWidget(payButton, row, 1)
       payButton.connect(SIGNAL('clicked()')) do
-        puts "open the website #{@urlAtPayButton[payButton]}"
+        system("open #{@urlAtPayButton[payButton]}")
       end
       paidBox.connect(SIGNAL('clicked()')) do
         selected_bill = @billAtPaidBox[paidBox]
